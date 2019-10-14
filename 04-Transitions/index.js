@@ -39,7 +39,7 @@ const yAxis = d3.axisLeft(y)
     .ticks(3)
     .tickFormat(d => d + ' orders');
 
-const t = d3.transition().duration(500);
+const t = d3.transition().duration(1500);
 
 // the update function
 const update = (data) => {
@@ -59,20 +59,20 @@ const update = (data) => {
     rects.attr('width', x.bandwidth)
         .attr('fill', 'orange')
         .attr('x', d => x(d.name))
-    // .transition(t)
-    //   .attr("height", d => graphHeight - y(d.orders))
-    //   .attr('y', d => y(d.orders));
+        .transition(t)
+        .attr("height", d => graphHeight - y(d.orders))
+        .attr('y', d => y(d.orders));
 
     // append the enter selection to the DOM
     rects.enter()
         .append('rect')
-        .attr('width', x.bandwidth)
+        .attr('width', 0)
         .attr("height", d => 0)
         .attr('fill', 'orange')
         .attr('x', (d) => x(d.name))
         .attr('y', d => graphHeight)
-        .merge(rects)
         .transition(t)
+        .attrTween('width', widthTween)
         .attr("height", d => graphHeight - y(d.orders))
         .attr('y', d => y(d.orders));
 
@@ -109,3 +109,12 @@ db.collection('dishes').onSnapshot(res => {
     update(data);
 
 });
+
+// Tweens
+const widthTween = (d) => {
+    let i = d3.interpolate(0, x.bandwidth());
+    return function(t){
+
+        return i(t);
+    }
+};
