@@ -20,14 +20,27 @@ const arcPath = d3.arc()
     .outerRadius(dims.radius)
     .innerRadius(dims.radius / 2);
 
-// ordianl colour scale
+// ordinal colour scale
 const colour = d3.scaleOrdinal(d3["schemeSet3"]);
+
+// legend setup
+const legendGroup = svg.append('g')
+    .attr('transform', `translate(${dims.width + 40}, 10)`)
+
+const legend = d3.legendColor()
+    .shape('path', d3.symbol().type(d3.symbolCircle)())
+    .shapePadding(10)
+    .scale(colour)
 
 // update function
 const update = (data) => {
 
     // update colour scale domain
     colour.domain(data.map(d => d.name));
+
+    // update legend
+    legendGroup.call(legend);
+    legendGroup.selectAll('text').attr('fill', 'white');
 
     // join enhanced (pie) data to path elements
     const paths = graph.selectAll('path')
@@ -52,6 +65,11 @@ const update = (data) => {
         .attr('fill', d => colour(d.data.name))
         .each(function(d){ this._current = d })
         .transition().duration(750).attrTween("d", arcTweenEnter);
+
+    // add events
+    graph.selectAll('path')
+        .on('mouseover', handleMouseOver)
+        .on('mouseout', handleMouseOut);
 
 };
 
@@ -106,7 +124,6 @@ const arcTweenExit = (d) => {
 
 // use function keyword to allow use of 'this'
 function arcTweenUpdate(d) {
-    console.log(this._current, d);
     // interpolate between the two objects
     var i = d3.interpolate(this._current, d);
     // update the current prop with new updated data
@@ -116,4 +133,19 @@ function arcTweenUpdate(d) {
         // i(t) returns a value of d (data object) which we pass to arcPath
         return arcPath(i(t));
     };
+};
+
+// event handlers
+const handleMouseOver = (d,i,n) => {
+    //console.log(n[i]);
+    d3.select(n[i])
+        .transition().duration(300)
+        .attr('fill', '#fff');
+};
+
+const handleMouseOut = (d,i,n) => {
+    //console.log(n[i]);
+    d3.select(n[i])
+        .transition().duration(300)
+        .attr('fill', colour(d.data.name));
 };
