@@ -1,16 +1,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <style>
-        h2, p{
+        h2, p {
             margin: 10px 0;
         }
-        header{
+
+        header {
             margin-bottom: 40px;
+        }
+        .tip{
+            padding: 10px;
+            background: #333;
+            color: #fff;
+        }
+        .tip .delete{
+            color: hotpink;
+            font-size: 0.8em;
         }
     </style>
     <title>Donut Chart</title>
@@ -29,18 +39,18 @@
                 <div class="card-content">
                     <span class="card-title indigo-text">Add Item:</span>
                     <div class="input-field">
-                        <input type="text" id="name">
+                        <input id="name" type="text">
                         <label for="name">Item Name</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="cost">
+                        <input id="cost" type="text">
                         <label for="cost">Item Cost (£)</label>
                     </div>
                     <div class="input-field center">
                         <button class="btn-large pink white-text">Add Item</button>
                     </div>
                     <div class="input-field center">
-                        <p id="error" class="red-text"></p>
+                        <p class="red-text" id="error"></p>
                     </div>
                 </div>
             </form>
@@ -50,8 +60,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -81,6 +89,10 @@
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.js"></script>
+
+<script crossorigin="anonymous"
+        integrity="sha256-qo76Vs9B6JAALbrTn+PcN1r09hbNLd2M78V19glOMeU=" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.min.js" integrity="sha256-DCW2G+HXRTaX80n/cuqXdLtWpE59kVHmSBzwPRBHe/o=" crossorigin="anonymous"></script>
 <script src="index.js"></script>
 <script src="graph.js"></script>
 </body>
